@@ -1,3 +1,4 @@
+const body = document.querySelector("body")
 const hamburguer = document.querySelector('.icon-menu');
 const menu = document.querySelector('.menu-navegacion');
 const closed = document.querySelector('.icon-close');
@@ -11,8 +12,7 @@ const categorys_bebe_niña = document.querySelectorAll('.bebe-niña-li')
 const categorys_bebe_niño = document.querySelectorAll('.bebe-niño-li')
 const categorys_bebe_mini = document.querySelectorAll('.bebe-mini-li')
 const carrousel = document.querySelector(".slick-list");
-const carrousel_point = document.querySelectorAll(".point");
-
+const carrousel_point = document.querySelectorAll(".slick");
 // Mostar el sidebar lateral -------------------------------------------------------------------------------------------
     // al hacer click agregar la clase "spread" y remover la clase "close" si la tiene
 hamburguer.addEventListener('click', ()=>{
@@ -170,27 +170,95 @@ filter_categorys_children.forEach( (element, i)=>{
 
 
 // Recorrer TODOS los punto
-carrousel_point.forEach( ( elemento , i )=> {
-    // Asignamos un CLICK a cadaPunto
-   carrousel_point[i].addEventListener('click',()=>{
 
-        // Guardar la posición de ese PUNTO
-        let posicion  = i
-        // Calculando el espacio que debe DESPLAZARSE el container que tiene las img
-        let operacion = posicion * -25;
+let isDragging = false;
+let startpos = 0;
+let currentTranslate = 0;
+let prevTranslate = 0;
+let animationID = 0;
+let currentIndex = 0;
 
-        //quitamos la animacion
-        carrousel.style.animation = 'none';
 
-        // MOVEMOS el container que tiene las img
-        carrousel.style.transform = `translateY(${operacion}%)`
-        
-        // Recorremos TODOS los punto
-        // carrousel_point.forEach( ( elemento , i )=>{
-        //     // Quitamos la clase ACTIVO a TODOS los punto
-        //     carrousel_point[i].classList.remove('active')
-        // })
-        // // Añadir la clase activo en el punto que hemos hecho CLICK
-        // carrousel_point[i].classList.add('active')
-    }); 
+
+
+
+carrousel_point.forEach( ( slick , i )=> {
+
+    const slideimg = document.querySelector('img')
+
+    slideimg.addEventListener('dragstart', (e)=> e.preventDefault() )
+
+   slick.addEventListener('touchstart', touchStart(i)); 
+   slick.addEventListener('touchend', touchEnd);
+   slick.addEventListener('touchmove', touchMove);
+
+   slick.addEventListener('mousedown', touchStart(i)); 
+   slick.addEventListener('mouseup', touchEnd);
+   slick.addEventListener('mouseleave', touchEnd);
+   slick.addEventListener('mousemove', touchMove);
 })
+
+
+function touchStart(i){
+    return function(event){
+        currentIndex = i;
+        
+        startpos = getPositionY(event);
+        isDragging = true;
+        // console.log(startpos)
+
+        animationID = requestAnimationFrame(animation)
+    }
+}
+
+function touchEnd(){
+        isDragging = false
+        cancelAnimationFrame(animationID)
+    
+}
+
+function touchMove(event){
+    if(isDragging){
+        const currentPosition = getPositionY(event)
+        currentTranslate = prevTranslate + currentPosition - startpos
+    }
+          
+}
+
+function getPositionY(event){
+    return event.type.includes('mouse') ? event.pageY : 
+        event.touches[0].clienteY
+}
+
+function animation(){
+    setCarrouselPosition()
+    if(isDragging) requestAnimationFrame(animation)
+}
+
+function setCarrouselPosition(){
+    carrousel.style.transform = `translateY(${ currentTranslate }%)`
+}
+
+
+
+
+// body.addEventListener("touchstart", touches, false);
+// // body.addEventListener("touchmove", touchstart, false);
+// // body.addEventListener("touchend",touchstart);
+// var xIni, yIni;
+
+// function touches (e){
+
+//     //  xIni = e.targetTouches[0].pageX;
+//      touch = e.targetTouches[0].pageY;
+
+//      if(e.target ===){
+//         carrousel.style.transform = `translateY(0%)`;
+//         console.log(yIni)
+//      }else if(e.targetTouches[0].pageY > 500 && e.targetTouches[0].pageY < 1600){
+//         carrousel.style.animation = 'none';
+//         carrousel.style.transform = `translateY(-25%)`
+//         console.log(yIni)
+//     //  }
+    // console.log(e.target, touch)
+// }
