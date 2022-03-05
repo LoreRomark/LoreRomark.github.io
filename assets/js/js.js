@@ -3,7 +3,7 @@ const hamburguer = document.querySelector('.icon-menu');
 const menu = document.querySelector('.menu-navegacion');
 const closed = document.querySelector('.icon-close');
 const categorys_name = document.querySelectorAll('.menu-categoria-name')
-const submenu_container_categorys = document.querySelector('.submenu-container-categorias')
+const submenu_container_carrousel = document.querySelector('.submenu-container-carrusel')
 const filter_categorys_children = document.querySelectorAll('.filtro-children-category')
 const categorys_children = document.querySelectorAll('.categoria-chlidren')
 const categorys_niña = document.querySelectorAll('.niña-li')
@@ -28,18 +28,6 @@ closed.addEventListener('click', ()=>{
 })
 
 
-// ocultar el sidebar al hacer click fuera de el en la pantalla -------------------------------------------------------
-    // si menu tiene la clase spread
-    // si click ocurre a algo diferente a menu, hamburguer y close 
-// window.addEventListener("click", (e)=>{
-//     if(menu.classList.contains("spread") && e.target != menu && e.target != hamburguer && e.target != closed){
-//         menu.classList.remove("spread")
-//     }
-//     console.log(e.target)
-// })
-
-
-
 // Al hacer CLICK en una categoria (woman,man,children,info) ( MENU CARRUSEL ) ---------------------------------------
     // Recorro TODAS las categorias que tengo
 categorys_name.forEach( (element, i)=>{
@@ -49,7 +37,7 @@ categorys_name.forEach( (element, i)=>{
         let position = i;
         let operation = position * -25 // este es el porcentaje que se trasladara cada UL del slider (100% / 4 )
 
-        submenu_container_categorys.style.transform = `translateX(${operation}%)`;
+        submenu_container_carrousel.style.transform = `translateX(${operation}%)`;
 
         // Recorro TODAS las categorias que tengo y les elimino la clase 'active'
         categorys_name.forEach((element,i)=>{
@@ -65,15 +53,16 @@ categorys_name.forEach( (element, i)=>{
 filter_categorys_children.forEach( (element, i)=>{
     filter_categorys_children[i].addEventListener('click', ()=>{
         let position = i; 
-
+        
         filter_categorys_children.forEach((element, i)=>{
             filter_categorys_children[i].classList.remove('active'); 
         })
-
         filter_categorys_children[i].classList.toggle('active');
 
         if (position === 0){
+            
             categorys_niña.forEach((element,i)=>{
+
                 categorys_niña[i].classList.toggle('show');
                 
                 categorys_niño.forEach((element,i)=>{
@@ -157,7 +146,7 @@ filter_categorys_children.forEach( (element, i)=>{
                     categorys_niña[i].classList.remove('show');
                 });
             });
-        } 
+        }
     })
 })
 
@@ -260,5 +249,7 @@ function setCarrouselPosition(){
 //         carrousel.style.transform = `translateY(-25%)`
 //         console.log(yIni)
 //     //  }
-    // console.log(e.target, touch)
+//     console.log(e.target, touch)
 // }
+
+
