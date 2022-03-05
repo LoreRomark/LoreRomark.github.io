@@ -1,3 +1,5 @@
+"use strict";
+
 const filter_category_container = document.querySelector('.filter-categorias-container');
 const filter_tallas_container = document.querySelector('.filter-tallas-container')
 const filter_category = document.querySelector('.filter-categorias')
